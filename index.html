@@ -51,9 +51,16 @@
     #bt-switch{ 
       position: fixed; 
       top: calc(92%); 
-      left: 47.5%;	  
+      left: 10px;	  
       height: 7%; 
     }
+	
+	#bt-start{
+	  position: fixed; 
+      top: calc(92%); 
+      right: 10px;	  
+      height: 7%; 
+	}
     
     #conteiner-bt{
       width: 100%; 
@@ -65,6 +72,15 @@
 		position: fixed;
 		top: calc(50% - 100px);
 		width: 100%;
+	}
+	
+	#canvas-joinimage{
+		opacity:0; 
+		position:fixed; 
+		top: calc(50% - 100px);
+		width:100%; 
+		height: 200px;
+	
 	}
   </style>
 
@@ -78,10 +94,15 @@
 </div>
 <div id="conteiner-bt">
 <image id="bt-switch" src="switch-camera.png">
+<image id="bt-start" src="panoramic-camera.png">
 </div>
 <image id="arrow" src="arrow.png" hidden>
+
+<canvas id="canvas-joinimage" style=""> </canvas>
+
 <script src="js/main.js"></script>
 <script src="js/panoramic.js"></script>
+
 
 </body>
 </html>
