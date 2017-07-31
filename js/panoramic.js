@@ -55,8 +55,8 @@ function drawPreview(canvas, time){
 		copyImage(canvas, canvasJoin, time);
 		
 		setTimeout(function() {
-			drawPreview(canvas,time+.5);
-		}, 0);
+			drawPreview(canvas,time+2);
+		}, 100);
 	}
 }
 
