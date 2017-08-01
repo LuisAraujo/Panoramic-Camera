@@ -7,6 +7,9 @@ canvasJoin.height = screen.height;
 canvasJoin.width = screen.width*2; 
 
 var video = document.getElementById('video');
+video.width = screen.width;
+video.height = screen.height;
+
 var arrow =  document.getElementById('arrow')
 
 var btPanoramicCamera = document.getElementById('bt-start');
@@ -68,11 +71,11 @@ function comprimeImage(video){
 	var ctxalt = canvalt.getContext("2d");
 	canvalt.height = screen.height; 
 	canvalt.width = screen.width;
-	ctxalt.drawImage(video, 0,0,screen.width, screen.height);
+	ctxalt.drawImage(video, 0,0, video.width, video.height);
 
 	
-	var size = 20;
-	var i = 340;
+	var size = 10;
+	var i = 350;
 	//for(var i=0; i< screen.width; i+=size){
 		for(var j=0; j< screen.height; j+=size){
 			var pixels = ctxalt.getImageData(i+size/2, j+size/2, 1,1);
