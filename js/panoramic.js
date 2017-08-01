@@ -11,6 +11,8 @@ var arrow =  document.getElementById('arrow')
 
 var btPanoramicCamera = document.getElementById('bt-start');
 
+var lastImage = null;
+
 btPanoramicCamera.addEventListener("click",function(){
 	canvasJoin.style.opacity = 0;
 	video.style.opacity = 1;
@@ -22,7 +24,12 @@ btPanoramicCamera.addEventListener("click",function(){
 
 
 function drawPreview(canvas, time){
+	
 	var ctx  = canvas.getContext("2d");
+	
+	//if(lastImage != null)
+		lastImage = ctx;
+	
 	ctx.clearRect(0, 0, canvasPreview.width, canvasPreview.height);
 	var previewWidth = screen.width*.15;
 	var previewHeight = screen.height*.15;
@@ -31,7 +38,13 @@ function drawPreview(canvas, time){
 	
 	var marginLeftVideo =  time;
 	var marginLeftArrow =  (previewWidth) + 5 + marginLeftVideo;
-	ctx.drawImage(video, marginLeftVideo, top, previewWidth, previewHeight);
+	
+
+	
+	var alt = comprimeImage(video);
+	
+	//ctx.drawImage(video, marginLeftVideo, top, previewWidth, previewHeight);
+	ctx.drawImage(alt, marginLeftVideo, top, previewWidth, previewHeight);
 	ctx.drawImage(arrow, marginLeftArrow , top + (previewWidth/2) + 10, 20,20);
 	
 	ctx.beginPath();
@@ -46,20 +59,36 @@ function drawPreview(canvas, time){
 	ctx.rect(marginLeftVideo,top, previewWidth, previewHeight);
 	ctx.stroke();	
 	
-	if(time > (screen.width - previewWidth*2) ){
-		time = 0;
-		canvasJoin.style.opacity = 1;
-		video.style.opacity = 0;
-		canvasPreview.style.opacity = 0;
-	}else {
-		copyImage(canvas, canvasJoin, time);
-		
-		setTimeout(function() {
-			drawPreview(canvas,time+2);
-		}, 100);
-	}
 }
 
+
+function comprimeImage(video){
+	
+	var canvalt = document.getElementById("canvas-altenativ");
+	var ctxalt = canvalt.getContext("2d");
+	canvalt.height = screen.height; 
+	canvalt.width = screen.width;
+	ctxalt.drawImage(video, 0,0,screen.width, screen.height);
+
+	
+	var size = 20;
+	var i = 340;
+	//for(var i=0; i< screen.width; i+=size){
+		for(var j=0; j< screen.height; j+=size){
+			var pixels = ctxalt.getImageData(i+size/2, j+size/2, 1,1);
+			var red = pixels.data[0];
+			var green = pixels.data[1];
+			var blue = pixels.data[2];
+			var alfa = pixels.data[3];
+			ctxalt.beginPath();
+			ctxalt.fillStyle= "rgba("+red+","+green+","+blue+","+alfa/255+")";
+			ctxalt.rect(i, j, size, size);
+			ctxalt.fill();
+		}		
+	//}	
+	
+	return canvalt;
+}
 
 function copyImage(canvas1, canvas2, time){
 	
@@ -67,6 +96,7 @@ function copyImage(canvas1, canvas2, time){
 	var ctx2 = canvas2.getContext("2d");
 
 	ctx2.drawImage(video,time-.5,0);	
-	
 
 }
+
+

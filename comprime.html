@@ -1,0 +1,36 @@
+<html>
+<head></head>
+<body>
+<img id="img" src="calendar.png" hidden>
+<canvas height="400" width="400" id="canv"></canvas>
+<canvas height="400" width="400" id="canv-alt"></canvas>
+
+<script>
+
+window.onload = function(){
+	img = document.getElementById("img");
+	canv = document.getElementById("canv");
+	ctx = canv.getContext("2d");
+	canvalt = document.getElementById("canv-alt");
+    ctxalt = canvalt.getContext("2d");
+	ctx.drawImage(img, 0,0, 400, 400);
+	var a = ctxalt.getImageData(0, 0, 400,400);
+	
+	var size = 10;
+	for(i=0; i<400; i+=size){
+		for(j=0; j<400; j+=size){
+			var pixels = ctx.getImageData(i+size/2, j+size/2, 1,1);
+			red = pixels.data[0];
+			green = pixels.data[1];
+			blue = pixels.data[2];
+			alfa = pixels.data[3];
+			ctxalt.beginPath();
+			ctxalt.fillStyle= "rgba("+red+","+green+","+blue+","+alfa/255+")";
+			ctxalt.rect(i, j, size, size);
+			ctxalt.fill();
+		}		
+	}	
+}
+</script>
+</body>
+</html>
